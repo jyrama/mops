@@ -1,6 +1,6 @@
 [package]
 name = "mops"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2021"
 license = "MIT"
 homepage = "https://github.com/jyrama/mops"
@@ -8,7 +8,9 @@ documentation = "https://github.com/jyrama/mops"
 repository = "https://github.com/jyrama/mops"
 readme = "README.md"
 description = "Mmmm.... a bit like sops but in Rust"
-
+exclude = [
+    "priv/*",
+]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
