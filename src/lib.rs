@@ -1,4 +1,4 @@
-use std::{format, println, sync::Arc, collections::HashMap};
+use std::{format, sync::Arc};
 
 use aes_gcm::{AeadInPlace, KeyInit};
 use azure_identity::DefaultAzureCredentialBuilder;
@@ -15,11 +15,11 @@ type UnsupportedVault = Vec<serde_json::Map<String, serde_json::Value>>;
 pub struct SopsFile {
     sops: Sops,
     #[serde(flatten)]
-    content: serde_json::Map<String, serde_json::Value>,
+    pub content: serde_json::Map<String, serde_json::Value>,
 }
 
 impl SopsFile {
-    async fn get_ciphers(&self) -> Vec<SopsAES> {
+    pub async fn get_ciphers(&self) -> Vec<SopsAES> {
         let mut ciphers: Vec<SopsAES> = Vec::new();
 
         // Check for Azure Key Vault backed keys
@@ -106,9 +106,9 @@ pub struct EncryptedContent {
 }
 
 impl EncryptedContent {
-    pub fn decrypt(&self, ciphers: &Vec<SopsAES>) -> String {
+    pub fn decrypt(&self, ciphers: &[SopsAES]) -> String {
         ciphers
-            .into_iter()
+            .iter()
             .find_map(|cipher| {
                 let mut buffer = self.data.clone();
                 match cipher.decrypt_in_place_detached(
@@ -124,8 +124,6 @@ impl EncryptedContent {
             .expect("no keys found")
     }
 }
-
-type UnsupportedVault = Vec<serde_json::Map<String, serde_json::Value>>;
 
 #[derive(Debug, Deserialize)]
 pub struct Sops {
@@ -149,4 +147,3 @@ pub struct AzureKV {
     created_at: String,
     enc: String,
 }
-
