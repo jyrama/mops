@@ -12,3 +12,13 @@ description = "Mmmm.... a bit like sops but in Rust"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+tokio = {version = "1", features = ["full"]}
+serde = "1"
+serde_json = "1"
+azure_identity = "0.11"
+azure_security_keyvault = "0.11"
+base64 = "0.21"
+aes-gcm = "0.10"
+regex = "1"
+typenum = "1"
+aes = "0.8"
